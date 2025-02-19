@@ -1,84 +1,80 @@
-**Week 1: MongoDB Fundamentals Assignment**
+# MongoDB Setup and Usage Guide
 
-**Objective:**
+## Prerequisites
+Before running the MongoDB script, ensure you have the following installed on your system:
 
-- Apply MongoDB concepts learned throughout the week.
-- Practice working with databases, collections, and documents.
-- Develop skills in CRUD operations and data modeling.
+- [MongoDB](https://www.mongodb.com/try/download/community) (Ensure `mongod` service is running)
+- [MongoDB Shell (`mongosh`)](https://www.mongodb.com/try/download/shell)
+- [Visual Studio Code](https://code.visualstudio.com/)
 
-**Instructions:**
 
-1. **Setup MongoDB:**
+## Setup Instructions
 
-   - Install MongoDB locally or create a free cluster on MongoDB Atlas.
-   - Start the MongoDB server locally or connect to the MongoDB Atlas cluster.
-   - Verify the installation and connection by running:
-     ```sh
-     mongo --version
-     ```
+### 1. Install MongoDB
+If MongoDB is not installed, download and install it from [MongoDB Download Center](https://www.mongodb.com/try/download/community). Ensure the MongoDB service (`mongod`) is running.
 
-2. **Database and Collection Creation:**
+### 2. Verify Installation
+Run the following command in a terminal to check if MongoDB is installed:
+```sh
+mongod --version
+mongosh --version
+```
 
-   - Create a new database called `library`.
-   - Inside `library`, create a collection named `books`.
+### 3. Start MongoDB Server
+Start the MongoDB service if it's not already running:
+```sh
+mongod
+```
 
-3. **Insert Data:**
+### 4. Open MongoDB Shell
+In another terminal, start `mongosh` by running:
+```sh
+mongosh
+```
 
-   - Insert at least five book records into the `books` collection.
-   - Each book should contain fields such as `title`, `author`, `publishedYear`, `genre`, and `ISBN`.
+### 5. Run the MongoDB Script
+Save the provided MongoDB script as `mongodb_script.js`, then execute it using:
+```sh
+mongosh < mongodb_script.js
+```
+This will create the database, collections, and insert the necessary data.
 
-4. **Retrieve Data:**
+### 6. Verify Data Insertion
+After running the script, check if data is inserted successfully:
+```sh
+use library;
+db.books.find().pretty();
+db.users.find().pretty();
+db.products.find().pretty();
+db.orders.find().pretty();
+```
 
-   - Retrieve all books from the collection.
-   - Query books based on a specific author.
-   - Find books published after the year 2000.
+## Additional Commands
+### Retrieve Data
+```sh
+db.books.find()
+db.books.find({ author: "George Orwell" })
+db.books.find({ publishedYear: { $gt: 2000 } })
+```
 
-5. **Update Data:**
+### Update Data
+```sh
+db.books.updateOne(
+    { title: "1984" },
+    { $set: { publishedYear: 1950 } }
+);
+db.books.updateMany({}, { $set: { rating: 5 } });
+```
 
-   - Update the `publishedYear` of a specific book.
-   - Add a new field called `rating` to all books and set a default value.
+### Delete Data
+```sh
+db.books.deleteOne({ ISBN: "978-0-452-28423-4" })
+db.books.deleteMany({ genre: "Romance" })
+```
 
-6. **Delete Data:**
-
-   - Delete a book by its `ISBN`.
-   - Remove all books of a particular genre.
-
-7. **Data Modeling Exercise:**
-
-   - Create a data model for an e-commerce platform including collections for `users`, `orders`, and `products`.
-   - Decide on appropriate fields and relationships (embedding vs. referencing).
-   - Implement the structure using MongoDB.
-
-8. **Aggregation Pipeline:**
-
-   - Use aggregation to find the total number of books per genre.
-   - Calculate the average published year of all books.
-   - Identify the top-rated book.
-
-9. **Indexing:**
-
-   - Create an index on the `author` field to optimize query performance.
-   - Explain the benefits of indexing in MongoDB.
-
-10. **Testing:**
-
-   - Use the MongoDB shell or Compass to verify the inserted and updated records.
-   - Ensure all queries return the expected results.
-
-11. **Documentation:**
-
-   - Create a `README.md` file with step-by-step instructions on setting up and running your database.
-
-12. **Submission:**
-
-   - Push your code and scripts to your GitHub repository.
-
-**Evaluation Criteria:**
-
-- Proper setup and connection of MongoDB.
-- Accurate implementation of CRUD operations.
-- Correct data modeling with appropriate relationships.
-- Use of aggregation for insightful queries.
-- Clear and concise documentation.
-- Proper indexing implementation.
+## Indexing
+Create an index on the `author` field:
+```sh
+db.books.createIndex({ author: 1 })
+```
 
